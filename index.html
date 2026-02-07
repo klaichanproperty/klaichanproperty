@@ -1,21 +1,40 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <title>KlaiChan Property</title>
-</head>
-<body>
-  <h1>KlaiChan Property</h1>
-  <p>
-    KlaiChan Property is a web-based automation tool that helps property agents
-    publish listing content (videos and images) to TikTok using the official
-    TikTok Content Posting API.
-  </p>
-  <p>
-    The service operates as an internal workflow tool and requires user
-    authorization via TikTok Login.
-  </p>
-  <p>
-    Contact: klaichanproperty@gmail.com
-  </p>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <title>KlaiChan Property</title>
+  </head>
+  <body>
+    <h1>KlaiChan Property</h1>
+    <p>Connect your TikTok account to enable posting.</p>
+
+    <button id="ttLogin">Login with TikTok</button>
+
+    <script>
+      // 1) Put your TikTok client key here
+      const clientKey = "awvjbhapb5ilj5qs";
+
+      // 2) This must MATCH EXACTLY what you put in TikTok Developer Portal
+      const redirectUri = "https://benhoenig.app.n8n.cloud/rest/oauth2-credential/callback";
+
+      // 3) Scopes must match what you added in TikTok: user.info.basic, video.upload, video.publish
+      const scope = "user.info.basic,video.upload,video.publish";
+
+      // 4) This is a random string to protect against weird attacks
+      const state = Math.random().toString(36).slice(2);
+
+      // 5) TikTok authorize endpoint (TikTok docs call this the authorization URL)
+      const authUrl =
+        "https://www.tiktok.com/v2/auth/authorize/?" +
+        "client_key=" + encodeURIComponent(clientKey) +
+        "&scope=" + encodeURIComponent(scope) +
+        "&response_type=code" +
+        "&redirect_uri=" + encodeURIComponent(redirectUri) +
+        "&state=" + encodeURIComponent(state);
+
+      document.getElementById("ttLogin").onclick = () => {
+        window.location.href = authUrl;
+      };
+    </script>
+  </body>
 </html>
